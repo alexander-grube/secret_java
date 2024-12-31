@@ -16,8 +16,6 @@ repositories {
 
 dependencies {
     implementation("io.undertow:undertow-core:2.3.18.Final")
-    implementation("io.undertow:undertow-servlet:2.3.18.Final")
-    implementation("io.undertow:undertow-websockets-jsr:2.3.18.Final")
     implementation("com.alibaba.fastjson2:fastjson2:2.0.53")
     implementation("org.postgresql:postgresql:42.7.4")
     implementation("com.zaxxer:HikariCP:6.2.1")

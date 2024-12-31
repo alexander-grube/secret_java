@@ -41,7 +41,7 @@ public class SecretMessageController {
     public static void postMessage(HttpServerExchange exchange, HikariDataSource dataSource) {
         exchange.getRequestReceiver().receiveFullBytes((exchange1, message) -> {
             try (var connection = dataSource.getConnection()) {
-                var secretMessage = (SecretMessage) JSON.parseObject(message, SecretMessage.class);
+                var secretMessage = JSON.parseObject(message, SecretMessage.class);
                 var statement = connection.prepareStatement("INSERT INTO secret_message (message) VALUES (?) RETURNING ID");
                 statement.setString(1, secretMessage.getMessage());
                 var resultSet = statement.executeQuery();
