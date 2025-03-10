@@ -43,13 +43,13 @@ public class SecretMessageController {
             try (var connection = dataSource.getConnection()) {
                 var secretMessage = JSON.parseObject(message, SecretMessage.class);
                 var statement = connection.prepareStatement("INSERT INTO secret_message (message) VALUES (?) RETURNING ID");
-                statement.setString(1, secretMessage.getMessage());
+                statement.setString(1, secretMessage.message());
                 var resultSet = statement.executeQuery();
                 resultSet.next();
-                secretMessage.setId(UUID.fromString(resultSet.getString("id")));
+                SecretMessage response = new SecretMessage(UUID.fromString(resultSet.getString("id")), secretMessage.message());
                 exchange.setStatusCode(201);
                 exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
-                exchange.getResponseSender().send(JSON.toJSONString(secretMessage));
+                exchange.getResponseSender().send(JSON.toJSONString(response));
             } catch (Exception e) {
                 exchange.setStatusCode(500);
                 exchange.getResponseSender().send("Internal server error");
